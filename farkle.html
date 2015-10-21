@@ -1,0 +1,169 @@
+<html>
+	<head>
+		<!-- Title on tab of webpage -->
+		<title>Farkle</title>
+		
+		<!-- Cool buttons borrowed from JQuery.com (tells the script where to get all the specs for the buttons) -->
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"></link>
+  		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  		
+  		<!-- A library of commonly used functions that people can add to/share (this is on the lab's server) -->
+        <script type="text/javascript" src="/js/misc.js"></script>
+        
+        <!-- This script runs the task -->
+        <script type="text/javascript" src="/~dnl/farkle/farkle.js"></script>
+		
+		<!-- Defines the style of the body and some of its specific elements (CSS script) -->
+		<style>
+			body 			{font-family: 'Times New Roman'; font-size: 20px; color: #F5F6CE;}
+			#scoreboard 	{padding: 5px;}
+			#settings		{width: 400px; position: absolute; top: 25%; right: 25%; left: 50%; margin-left: -200px;}
+			#dice_area		{height: 450; width: 585px; position: absolute; top: 15%; right: 25%; left: 50%; margin-left: -290px;}
+			#scoring_key 	{padding: 5px;}
+			#tempScore		{height: 65px; width: 65px;}
+			#keepers		{height: 65px; width: 390px;}
+			#play_container {position: fixed; height: 65px; width: 560px; bottom: 10px; right: 25%; left: 50%; margin-left: -280px;}
+		</style>
+	</head>
+	
+	<!-- The onload directive calls the function setup() after the page elements are created -->
+	<body background='dark_red_felt.jpg' onload='setup()'>
+		<!-- Header -->
+		<center>
+		<h1><font size='7'><i>~ Farkle ~</i></font></h1>
+		</center>
+		
+		<!-- Scoreboard -->
+		<div id='scoreboard' align='left' style='float: left; border: 1px solid;'>
+			<center>
+			<font size='6'>Scores</font>
+			</center>
+			
+			<!-- contains team names, scores, and farkles -->
+			<form id='scores'></form>
+		</div>
+		
+		<!-- Settings -->
+		<div id='settings'>
+			<!-- Players Form (action means when the Done Button is pressed, it calls done1())-->
+			<form id='players' action='javascript: done1();'>
+				<!-- instructions -->
+				<font size='4'>Please indicate the number of teams </font>
+				
+				<!-- input box -->
+				<input id='numPlayers' size='2'></input>
+				<font size='3'>(1-5)</font>
+				
+				<!-- Done button -->
+				<p><input id='done1' type='Submit' value='Done'></input></p>
+			</form>
+			
+			<!-- Names Form (calls done2())-->
+			<form id='names' name='names' action='javascript: done2();'></form>
+			
+			<!-- Options Form -->
+			<div id='options'></div>
+			
+			<!-- Limit Form (calls begin())-->
+			<form id='limit' action='javascript: begin();'></form>
+			
+			<!-- Turns Form (calls begin())-->
+			<form id='turns' action='javascript: begin();'></form>
+			
+			<!-- Roll Form -->
+			<form id='roll'></form>
+			
+			<!-- Roll For Your Life Form (calls rollForYourLife()) -->
+			<form id='lastRoll' action='javascript: rollForYourLife();'></form>
+		</div>
+		
+		<!-- Dice Area -->
+		<div id='dice_area'></div>
+		
+		<!-- Scoring Key -->
+		<div id='scoring_key' align='left' style='float: right; border: 1px solid;'>
+			<center>
+			<font size='6'>Score Key</font>
+			</center>
+			
+			<p>
+			<!-- All of the scores are listed in othe order they appear (<br> just means new line)-->
+			<img src='5.png' alt='1' height ='15' width='15'></img>
+			= 50
+			<br>
+			<img src='1.png' alt='1' height ='15' width='15'></img>
+			= 100
+			<br>
+			<img src='2.png' alt='2' height ='15' width='15'></img>
+			<img src='2.png' alt='2' height ='15' width='15'></img>
+			<img src='2.png' alt='2' height ='15' width='15'></img>
+			= 200
+			<br>
+			<img src='3.png' alt='3' height ='15' width='15'></img>
+			<img src='3.png' alt='3' height ='15' width='15'></img>
+			<img src='3.png' alt='3' height ='15' width='15'></img>
+			= 300
+			<br>
+			<img src='4.png' alt='4' height ='15' width='15'></img>
+			<img src='4.png' alt='4' height ='15' width='15'></img>
+			<img src='4.png' alt='4' height ='15' width='15'></img>
+			= 400
+			<br>
+			<img src='5.png' alt='5' height ='15' width='15'></img>
+			<img src='5.png' alt='5' height ='15' width='15'></img>
+			<img src='5.png' alt='5' height ='15' width='15'></img>
+			= 500
+			<br>
+			<img src='6.png' alt='6' height ='15' width='15'></img>
+			<img src='6.png' alt='6' height ='15' width='15'></img>
+			<img src='6.png' alt='6' height ='15' width='15'></img>
+			= 600
+			<br>
+			<img src='1.png' alt='1' height ='15' width='15'></img>
+			<img src='1.png' alt='1' height ='15' width='15'></img>
+			<img src='1.png' alt='1' height ='15' width='15'></img>
+			= 1,000
+			<br>
+			Three Pair = 1,500
+			<br>
+			<img src='1.png' alt='1' height ='15' width='15'></img>
+			<img src='2.png' alt='2' height ='15' width='15'></img>
+			<img src='3.png' alt='3' height ='15' width='15'></img>
+			<img src='4.png' alt='4' height ='15' width='15'></img>
+			<img src='5.png' alt='5' height ='15' width='15'></img>
+			<img src='6.png' alt='6' height ='15' width='15'></img>
+			= 1,500
+			<br>
+			2 Three of a Kinds = 2,000
+			<br>
+			Four of a Kind = 2,000
+			<br>
+			Full House (2x4) = 2,500
+			<br>
+			Five of a Kind = 3,000
+			<br>
+			Six of a Kind = 6,000
+			</p>
+		</div>
+		
+		<!-- Controls for gameplay -->
+		<div id='play_container'>
+			<!-- Temporary Score -->
+			<div id='tempScore' style='float: left;'></div>
+			
+			<!-- Keepers -->
+			<div id='keepers' style='float: left;'></div>
+		
+			<!-- Gameplay Buttons -->
+			<div id='play_buttons' style='float: right;'>
+				<!-- Roll Button (calls rollDice())-->
+				<button id='roll_dice' onClick='javascript: rollDice();'>Roll</button>
+				<br>
+				<!-- End Turn Button (calls endTurn())-->
+				<button id='end_turn' onClick='javascript: endTurn();'>End Turn</button>
+				<br>
+			</div>
+		</div>
+	</body>
+</html>
