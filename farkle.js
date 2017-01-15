@@ -1,3 +1,5 @@
+'use strict';
+
 // stores minimum and maximum number of players
 var minPlayers = 1;
 var maxPlayers = 5;

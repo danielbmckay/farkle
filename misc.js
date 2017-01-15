@@ -1,3 +1,5 @@
+'use strict';
+
 // shuffles an array; returns it
 function shuffle(array) {
     var j,
